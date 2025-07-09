@@ -26,6 +26,6 @@ async fn main() {
     crawler::start_crawling(rx, tx.clone().into(), visited, sem, graph.clone()).await;
 
     drop(tx);
-    write_dot(&graph, "site.dot").expect("写入 dot 文件失败");
-    println!("✅ 爬虫结束，结构图已生成！");
+    write_dot(&graph, "site.dot").expect("write dot file failed");
+    println!("✅ crawler finished，site graph generated！");
 }

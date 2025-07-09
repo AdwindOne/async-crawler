@@ -24,10 +24,11 @@ pub async fn start_crawling(
 
         visited.insert(task.url.clone());
         // let mut rng = thread_rng();
-        // let delay_ms = rng.gen_range(100..=1500); // ✅ 可调节范围
+        // let delay_ms = rng.gen_range(100..=1500);
         // println!("delay: {}ms", delay_ms);
         // sleep(Duration::from_millis(delay_ms)).await;
-
+        // storage::init_db(&task.url);
+        let _ =storage::creat_table();
         let page = storage::fetch_page(&task.url).await;
         println!("page: {:?}, url: {:?}, depth: {}", page.is_some(), task.url, task.depth);
         if let Some((title, body, links)) = page {
@@ -50,13 +51,13 @@ pub async fn start_crawling(
                     //     depth: task.depth - 1,
                     // }).await;
 
-                    let tx_clone = tx.clone(); // ✅ 克隆 sender
+                    let tx_clone = tx.clone(); // clone sender
                     let new_task = CrawlTask {
                         url: link,
                         depth: task.depth - 1,
                     };
 
-                    // ✅ 并发发送下一个爬取任务
+                    // current send next crawl task
                     tokio::spawn(async move {
                         let _ = tx_clone.send(new_task).await;
                     });

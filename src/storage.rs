@@ -3,24 +3,6 @@ use scraper::{Html, Selector};
 use reqwest;
 use url::Url;
 
-#[allow(dead_code)]
-pub fn init_db(path: &str) -> Connection {
-    let conn = Connection::open(path).unwrap();
-    conn.execute_batch("
-        CREATE TABLE IF NOT EXISTS pages (
-            url TEXT PRIMARY KEY,
-            title TEXT,
-            body TEXT,
-            keyword TEXT
-        );
-        CREATE TABLE IF NOT EXISTS links (
-            from_url TEXT,
-            to_url TEXT
-        );
-    ").unwrap();
-    conn
-}
-
 pub async fn fetch_page(url: &str) -> Option<(String, String, Vec<String>)> {
     let res = reqwest::get(url).await.ok()?.text().await.ok()?;
 
