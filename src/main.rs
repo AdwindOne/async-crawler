@@ -22,10 +22,8 @@ async fn main() {
         depth: 2,
     }).await.unwrap();
 
-    drop(tx.clone());
     crawler::start_crawling(rx, tx.clone().into(), visited, sem, graph.clone()).await;
 
-    drop(tx);
     write_dot(&graph, "site.dot").expect("write dot file failed");
     println!("✅ crawler finished，site graph generated！");
 }
