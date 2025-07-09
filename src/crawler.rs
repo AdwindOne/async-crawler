@@ -2,8 +2,11 @@ use tokio::{sync::{mpsc, Semaphore}};
 use std::sync::Arc;
 use dashmap::DashSet;
 use crate::{storage, filter, graph::SiteGraph, types::CrawlTask};
+#[allow(unused_imports)]
 use crate::graph::write_dot;
+#[allow(unused_imports)]
 use rand::{thread_rng, Rng};
+#[allow(unused_imports)]
 use tokio::time::{sleep, Duration};
 
 pub async fn start_crawling(
